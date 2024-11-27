@@ -83,7 +83,6 @@ h1, h2, h3,p,label{
 
 /* Table styling */
 table {
-  width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
   color: black;
@@ -120,7 +119,6 @@ table {
 }
 
 .navbar ul li a:hover {
-  text-decoration: underline;
   text-decoration: underline;
 }
 
