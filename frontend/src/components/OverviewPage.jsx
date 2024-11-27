@@ -100,7 +100,7 @@ function OverviewPage() {
                 <thead>
                 <tr>
                     <th>Savings Goal</th>
-                    <th>Amount (£)</th>
+                    <th>Amount</th>
                     <th>Months to Save</th>
                 </tr>
                 </thead>
@@ -108,7 +108,7 @@ function OverviewPage() {
                 {savingsList.map((saving, index) => (
                     <tr key={index}>
                         <td>{saving.name}</td>
-                        <td>{saving.amount.toFixed(2)}</td>
+                        <td>£{saving.amount.toFixed(2)}</td>
                         <td>
                             {totalIncome > 0
                                 ? monthsToSave[index]
