@@ -3,7 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
 }
+
+
 
 .logo {
   height: 6em;
@@ -65,8 +68,9 @@ th, td {
   text-align: center;
   border: 1px solid #ddd;
 }
-h1, h2 {
+h1, h2, h3,p,label{
   text-align: center;
+  color: #2C3E50;
 }
 
 .table-container {
@@ -80,10 +84,13 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
+  color: black;
+  background-color: gray;
 }
 
 .content-container {
   margin-top: 20px;
+
 }
 
 .navbar {
