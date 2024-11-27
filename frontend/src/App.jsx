@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TransactionForm from "./components/TransactionForm";
 import TransactionTable from "./components/TransactionTable";
+import "./App.css"
 
 function App() {
     const [transactions, setTransactions] = useState([]);
@@ -49,10 +50,13 @@ function App() {
     return (
         <div>
             <h1>Smart Budget</h1>
-            <TransactionForm onAddTransaction={addTransaction} />
+            <div className="image-container">
+                <img src="/images/Smart Budget Image.jpeg" alt="Logo" className="centered-image"/>
+            </div>
+            <TransactionForm onAddTransaction={addTransaction}/>
             <h2>Transactions</h2>
             {/* Force re-render by updating the key */}
-            <TransactionTable key={transactions.length} transactions={transactions} />
+            <TransactionTable key={transactions.length} transactions={transactions}/>
         </div>
     );
 }
