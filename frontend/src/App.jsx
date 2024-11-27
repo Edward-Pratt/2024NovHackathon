@@ -1,66 +1,41 @@
-import React, { useState, useEffect } from "react";
-import TransactionForm from "./components/TransactionForm";
-import TransactionTable from "./components/TransactionTable";
-import "./App.css"
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import HomePage from './components/HomePage.jsx';
+import TransactionsPage from './components/TransactionsPage.jsx';
+import SettingsPage from './components/SavingsPage.jsx';
+import {useState} from "react";
+import SavingsPage from "./components/SavingsPage.jsx";
 
 function App() {
     const [transactions, setTransactions] = useState([]);
 
-    const fetchTransactions = () => {
-        console.log("Fetching transactions...");
-        fetch("http://localhost:8080/api/transactions")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Fetched transactions:", data);
-                setTransactions(data); // Set the state to trigger re-render
-            })
-            .catch((error) => {
-                console.error("Error fetching transactions:", error);
-            });
-    };
-
-    useEffect(() => {
-        console.log("Component mounted, calling fetchTransactions");
-        fetchTransactions();
-    }, []);
-
-    const addTransaction = (newTransaction) => {
-        console.log("Adding transaction:", newTransaction);
-        setTransactions((prevTransactions) => [...prevTransactions, newTransaction]);
-
-        fetch("http://localhost:8080/api/addTransaction", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newTransaction),
-        })
-            .then((response) => response.text())
-            .then(() => {
-                fetchTransactions(); // Re-fetch transactions after adding
-            })
-            .catch((error) => {
-                console.error("Error adding transaction:", error);
-                setTransactions((prevTransactions) =>
-                    prevTransactions.filter((t) => t !== newTransaction)
-                );
-            });
+    const addTransaction = (transaction) => {
+        setTransactions([...transactions, transaction]);
     };
 
     return (
-        <div>
-            <h1>Smart Budget</h1>
-            <div className="image-container">
-                <img src="/images/Smart Budget Image.jpeg" width="250" height="200" alt="Logo" className="centered-image"/>
-                <style>
-                    
-                </style>
+        <Router>
+            <div className="navbar">
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="/transactions">Transactions</Link>
+                        </li>
+                        <li>
+                            <Link to="/savings">Savings</Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <TransactionForm onAddTransaction={addTransaction}/>
-            <h2>Transactions</h2>
-            {/* Force re-render by updating the key */}
-            <TransactionTable key={transactions.length} transactions={transactions}/>
-        </div>
+
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/transactions" element={<TransactionsPage transactions={transactions} addTransaction={addTransaction} />} />
+                <Route path="/savings" element={<SavingsPage />} />
+            </Routes>
+        </Router>
     );
 }
 
