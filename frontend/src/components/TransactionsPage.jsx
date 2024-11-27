@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 import TransactionForm from "./TransactionForm";
 import TransactionTable from "./TransactionTable";
-import "../App.css"
+import "../App.css";
 
 function TransactionsPage() {
     const [transactions, setTransactions] = useState([]);
+    const [total, setTotal] = useState(0);
 
+    // Calculate total whenever transactions change
+    useEffect(() => {
+        const calculateTotal = () => {
+            const totalAmount = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+            setTotal(totalAmount);
+        };
+
+        calculateTotal();  // Recalculate total every time transactions change
+    }, [transactions]);
+
+    // Fetch all transactions from backend
     const fetchTransactions = () => {
-        console.log("Fetching transactions...");
         fetch("http://localhost:8080/api/transactions")
             .then((response) => response.json())
             .then((data) => {
-                console.log("Fetched transactions:", data);
-                setTransactions(data); // Set the state to trigger re-render
+                setTransactions(data);  // Update state with fetched data
             })
             .catch((error) => {
                 console.error("Error fetching transactions:", error);
@@ -20,14 +30,14 @@ function TransactionsPage() {
     };
 
     useEffect(() => {
-        console.log("Component mounted, calling fetchTransactions");
-        fetchTransactions();
+        fetchTransactions();  // Call once when the component mounts
     }, []);
 
+    // Add a new transaction and update both the backend and local state
     const addTransaction = (newTransaction) => {
-        console.log("Adding transaction:", newTransaction);
         setTransactions((prevTransactions) => [...prevTransactions, newTransaction]);
 
+        // Send the new transaction to the backend
         fetch("http://localhost:8080/api/addTransaction", {
             method: "POST",
             headers: {
@@ -37,12 +47,13 @@ function TransactionsPage() {
         })
             .then((response) => response.text())
             .then(() => {
-                fetchTransactions(); // Re-fetch transactions after adding
+                // Optionally, re-fetch transactions, or rely on local state updates
+                // fetchTransactions();
             })
             .catch((error) => {
                 console.error("Error adding transaction:", error);
                 setTransactions((prevTransactions) =>
-                    prevTransactions.filter((t) => t !== newTransaction)
+                    prevTransactions.filter((t) => t !== newTransaction)  // Rollback if error occurs
                 );
             });
     };
@@ -51,15 +62,15 @@ function TransactionsPage() {
         <div>
             <h1>Smart Budget</h1>
             <div className="image-container">
-                <img src="/images/Smart Budget Image.jpeg" width="250" height="200" alt="Logo" className="centered-image"/>
-                <style>
-
-                </style>
+                <img src="/images/Logo-No-Background.png" width="250" height="200" alt="Logo" className="centered-image" />
             </div>
-            <TransactionForm onAddTransaction={addTransaction}/>
+            <TransactionForm onAddTransaction={addTransaction} />
             <h2>Transactions</h2>
             {/* Force re-render by updating the key */}
-            <TransactionTable key={transactions.length} transactions={transactions}/>
+            <TransactionTable key={transactions.length} transactions={transactions} />
+            <div className="total">
+                <h3>Total: £{total.toFixed(2)}</h3>
+            </div>
         </div>
     );
 }
