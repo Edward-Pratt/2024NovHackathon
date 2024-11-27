@@ -51,7 +51,7 @@ function TransactionsPage() {
         <div>
             <h1>Smart Budget</h1>
             <div className="image-container">
-                <img src="/images/Smart Budget Image.jpeg" width="250" height="200" alt="Logo" className="centered-image"/>
+                <img src="/images/Logo-No-Background.png" width="250" height="200" alt="Logo" className="centered-image"/>
                 <style>
 
                 </style>
