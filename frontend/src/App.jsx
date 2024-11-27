@@ -51,7 +51,10 @@ function App() {
         <div>
             <h1>Smart Budget</h1>
             <div className="image-container">
-                <img src="/images/Smart Budget Image.jpeg" alt="Logo" className="centered-image"/>
+                <img src="/images/Smart Budget Image.jpeg" width="250" height="200" alt="Logo" className="centered-image"/>
+                <style>
+                    
+                </style>
             </div>
             <TransactionForm onAddTransaction={addTransaction}/>
             <h2>Transactions</h2>
