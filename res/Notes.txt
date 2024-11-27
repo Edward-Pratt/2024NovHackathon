@@ -1,0 +1,25 @@
+a. Personal Finance Data
+Income: Monthly or annual income streams (salary, investments, etc.).
+Expenses: Categorized spending data (e.g., groceries, entertainment, bills, subscriptions).
+Savings: Monthly contributions to savings or emergency funds.
+Debts and Loans: Credit card balances, student loans, mortgages, and their interest rates.
+
+b. Behavioural Data
+Spending habits over time (e.g., high spending periods, trends).
+Budget adherence (how closely users stick to their planned budgets).
+Impulse spending patterns.
+
+c. External Data Sources
+Inflation rates and their impact on purchasing power.
+Market prices of essential goods (e.g., groceries, gas).
+Currency exchange rates for users traveling abroad or using international services.
+Interest rates for savings accounts or loans.
+
+d. Contextual Data
+Recurring subscriptions (e.g., Netflix, Spotify) that might be forgotten.
+Bills and utilities (e.g., due dates, overdue payments).
+Financial goals (e.g., saving for a vacation, buying a car, or retirement).
+
+e. Predictive Data
+Forecast future expenses (e.g., holiday seasons, birthdays, or annual memberships).
+Predict long-term savings based on user habits.
