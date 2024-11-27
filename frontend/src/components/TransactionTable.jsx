@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-function TransactionTable() {
-    const [transactions, setTransactions] = useState([]);
-
-    // Fetch transactions from the backend API
-    useEffect(() => {
-        fetch("http://localhost:8080/api/transactions")
-            .then((response) => response.json())
-            .then((data) => setTransactions(data))
-            .catch((error) => console.error("Error fetching transactions:", error));
-    }, []);
+function TransactionTable({ transactions }) {
+    console.log("Transactions in table:", transactions); // Log to confirm data passed correctly
 
     return (
         <table>
@@ -20,12 +12,18 @@ function TransactionTable() {
             </tr>
             </thead>
             <tbody>
-            {transactions.map((transaction, index) => (
-                <tr key={index}>
-                    <td>{transaction.name}</td>
-                    <td>{transaction.amount}</td>
+            {transactions.length === 0 ? (
+                <tr>
+                    <td colSpan="2">No transactions available</td>
                 </tr>
-            ))}
+            ) : (
+                transactions.map((transaction, index) => (
+                    <tr key={index}>
+                        <td>{transaction.name}</td>
+                        <td>£{transaction.amount.toFixed(2)}</td>
+                    </tr>
+                ))
+            )}
             </tbody>
         </table>
     );

@@ -20,7 +20,7 @@ function TransactionForm({ onAddTransaction }) {
         // Call the parent callback function to add the transaction
         onAddTransaction(transaction);
 
-        // Clear the form
+        // Clear the form fields
         setName("");
         setAmount("");
     };
