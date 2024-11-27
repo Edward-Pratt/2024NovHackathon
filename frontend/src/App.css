@@ -41,20 +41,45 @@
   color: #888;
 }
 
+
+
 /* You can add this in a .css file or within styled-components or inline styles */
 
-/* Container for the image */
-.image-container {
-  display: flex;
-  justify-content: center;   /* Horizontally center the image */
-  align-items: center;       /* Vertically center the image (optional if fixed height) */
-  height: 200px;             /* Set a fixed height for the image container */
-  margin-bottom: 20px;       /* Add space below the image */
+/* Container for the image */.image-container {
+                               display: flex;
+                               justify-content: center;
+                               align-items: center;
+                               padding-top: 20px;  /* Adjust padding as needed */
+                             }
+
+.centered-image {
+  max-width: 100%;
+  height: auto;
 }
 
-/* The image itself */
-.centered-image {
-  max-width: 100%;          /* Ensure the image doesn't overflow */
-  height: auto;             /* Maintain aspect ratio */
-  object-fit: contain;      /* Ensure the image fits inside the container without stretching */
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+h1, h2 {
+  text-align: center;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.content-container {
+  margin-top: 20px;
 }
