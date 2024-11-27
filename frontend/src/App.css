@@ -74,6 +74,7 @@ h1, h2, h3,p,label{
 }
 
 
+
 .table-container {
   display: flex;
   justify-content: center;
@@ -87,6 +88,8 @@ table {
   margin: 0 auto;
   color: black;
   background-color: gray;
+  table-layout: fixed;
+  width: 600px;
 }
 
 .content-container {
@@ -117,6 +120,7 @@ table {
 }
 
 .navbar ul li a:hover {
+  text-decoration: underline;
   text-decoration: underline;
 }
 

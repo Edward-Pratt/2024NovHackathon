@@ -14,7 +14,7 @@ function OverviewPage() {
     useEffect(() => {
         const calculateTotalIncome = () => {
             const income = transactions
-                .filter((transaction) => transaction.amount) // Filter only positive transactions
+                .filter((transaction) => transaction.amount)
                 .reduce((acc, transaction) => acc + transaction.amount, 0);
             setTotalIncome(income);
         };
