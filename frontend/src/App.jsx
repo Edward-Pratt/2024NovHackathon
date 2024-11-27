@@ -5,21 +5,28 @@ import TransactionTable from "./components/TransactionTable";
 function App() {
     const [transactions, setTransactions] = useState([]);
 
-    // Function to fetch transactions from the backend
     const fetchTransactions = () => {
+        console.log("Fetching transactions...");
         fetch("http://localhost:8080/api/transactions")
             .then((response) => response.json())
-            .then((data) => setTransactions(data))
-            .catch((error) => console.error("Error fetching transactions:", error));
+            .then((data) => {
+                console.log("Fetched transactions:", data);
+                setTransactions(data); // Set the state to trigger re-render
+            })
+            .catch((error) => {
+                console.error("Error fetching transactions:", error);
+            });
     };
 
-    // Call fetchTransactions initially to load the table
     useEffect(() => {
+        console.log("Component mounted, calling fetchTransactions");
         fetchTransactions();
     }, []);
 
-    // Function to handle adding a new transaction
     const addTransaction = (newTransaction) => {
+        console.log("Adding transaction:", newTransaction);
+        setTransactions((prevTransactions) => [...prevTransactions, newTransaction]);
+
         fetch("http://localhost:8080/api/addTransaction", {
             method: "POST",
             headers: {
@@ -28,12 +35,15 @@ function App() {
             body: JSON.stringify(newTransaction),
         })
             .then((response) => response.text())
-            .then((data) => {
-                console.log(data);
-                // After adding a transaction, re-fetch the updated list of transactions
-                fetchTransactions();
+            .then(() => {
+                fetchTransactions(); // Re-fetch transactions after adding
             })
-            .catch((error) => console.error("Error adding transaction:", error));
+            .catch((error) => {
+                console.error("Error adding transaction:", error);
+                setTransactions((prevTransactions) =>
+                    prevTransactions.filter((t) => t !== newTransaction)
+                );
+            });
     };
 
     return (
@@ -41,7 +51,8 @@ function App() {
             <h1>Smart Budget</h1>
             <TransactionForm onAddTransaction={addTransaction} />
             <h2>Transactions</h2>
-            <TransactionTable transactions={transactions} />
+            {/* Force re-render by updating the key */}
+            <TransactionTable key={transactions.length} transactions={transactions} />
         </div>
     );
 }
