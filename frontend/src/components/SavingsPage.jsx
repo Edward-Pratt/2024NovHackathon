@@ -1,84 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import SavingsTable from "./SavingsTable";
+import "../App.css";
 
 function SavingsPage() {
-    // State to store the amount the user wants to save per month
-    const [monthlySavings, setMonthlySavings] = useState('');
-    // State to store the name of the savings
-    const [savingsName, setSavingsName] = useState('');
-    // State to store the user's comments about the savings
-    const [comments, setComments] = useState('');
+    const [savingsList, setSavingsList] = useState([]); // Stores the list of savings
+    const [savingsName, setSavingsName] = useState(""); // For the savings name input
+    const [monthlySavings, setMonthlySavings] = useState(""); // For the monthly savings input
+    const [comments, setComments] = useState(""); // For the comments input
 
-    // Handle changes in the monthly savings input field
-    const handleSavingsChange = (event) => {
-        setMonthlySavings(event.target.value);
+    // Fetch savings from backend when the component mounts
+    const fetchSavings = () => {
+        fetch("http://localhost:8080/api/savings")
+            .then((response) => response.json())
+            .then((data) => {
+                setSavingsList(data); // Update the state with the fetched data
+            })
+            .catch((error) => {
+                console.error("Error fetching savings:", error);
+                alert("Could not fetch savings from the server.");
+            });
     };
 
-    // Handle changes in the savings name input field
-    const handleSavingsNameChange = (event) => {
-        setSavingsName(event.target.value);
-    };
+    // useEffect to load savings from the backend
+    useEffect(() => {
+        fetchSavings();
+    }, []);
 
-    // Handle changes in the comments input field
-    const handleCommentsChange = (event) => {
-        setComments(event.target.value);
+    // Handle adding a new savings entry
+    const addSavings = () => {
+        if (!savingsName || !monthlySavings) {
+            alert("Please provide a name and an amount for the savings.");
+            return;
+        }
+
+        // Create a new savings object
+        const newSavings = {
+            name: savingsName,
+            amount: parseFloat(monthlySavings).toFixed(2), // Ensure two decimal places
+            comment: comments || "No comments", // Default to "No comments" if left blank
+        };
+
+        // Optimistically add to local state
+        setSavingsList((prevSavings) => [...prevSavings, newSavings]);
+
+        // Send the savings data to the backend
+        fetch("http://localhost:8080/api/addSavings", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newSavings),
+        })
+            .then((response) => response.text())
+            .then((message) => {
+                console.log(message); // Optional: Log the response from the server
+            })
+            .catch((error) => {
+                console.error("Error adding savings:", error);
+                // Roll back the change locally if there is an error
+                setSavingsList((prevSavings) =>
+                    prevSavings.filter((savings) => savings !== newSavings)
+                );
+            });
+
+        // Clear the input fields
+        setSavingsName("");
+        setMonthlySavings("");
+        setComments("");
     };
 
     return (
-        <div className="savings-container">
-            <h1>Savings Calculator</h1>
+        <div>
+            <h1>Savings Tracker</h1>
 
-            {/* Input box for the name of the savings */}
+            {/* Form to add savings */}
             <div>
                 <label htmlFor="savings-name">Savings Name:</label>
                 <input
                     id="savings-name"
                     type="text"
                     value={savingsName}
-                    onChange={handleSavingsNameChange}
+                    onChange={(e) => setSavingsName(e.target.value)}
                     placeholder="e.g. Emergency Fund"
                 />
             </div>
-
-            {/* Input box for the user to enter the amount to save per month */}
             <div>
-                <label htmlFor="monthly-savings">Enter amount to save per month:</label>
+                <label htmlFor="monthly-savings">Monthly Savings:</label>
                 <input
                     id="monthly-savings"
                     type="number"
                     value={monthlySavings}
-                    onChange={handleSavingsChange}
+                    onChange={(e) => setMonthlySavings(e.target.value)}
                     placeholder="e.g. 500"
                 />
             </div>
-
-            {/* Input box for user to add comments about the savings */}
             <div>
-                <label htmlFor="comments">What is this savings for?</label>
+                <label htmlFor="comments">Comments:</label>
                 <textarea
                     id="comments"
                     value={comments}
-                    onChange={handleCommentsChange}
-                    placeholder="e.g. For an upcoming vacation"
+                    onChange={(e) => setComments(e.target.value)}
+                    placeholder="What is this savings for?"
                 />
             </div>
+            <button onClick={addSavings}>Add Savings</button>
 
-            {/* Display the entered savings details */}
-            <div>
-                <h2>Savings Summary:</h2>
-                <p><strong>Name:</strong> {savingsName || 'Not provided'}</p>
-                <p><strong>Amount to Save:</strong> ${monthlySavings || '0'}</p>
-                <p><strong>Comment:</strong> {comments || 'No comments added'}</p>
-            </div>
+            {/* Render the savings table */}
+            <SavingsTable savingsList={savingsList} />
         </div>
     );
 }
 
 export default SavingsPage;
-
-
-// return (
-    //     <div>
-    //         <h2>Savings</h2>
-    //         <p>Plan your savings here</p>
-    //     </div>
-    // );

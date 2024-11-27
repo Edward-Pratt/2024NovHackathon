@@ -21,13 +21,13 @@ public class SavingsController {
     private final List<Savings> savings = new ArrayList<>();
 
     @PostMapping("/addSavings")
-    public String addsavings(@RequestBody Savings saving) {
+    public String addSavings(@RequestBody Savings saving) {
         savings.add(saving);
-        return "savings added successfully!";
+        return "Savings added successfully!";
     }
 
-    @GetMapping("/Savings")
-    public List<Savings> getsavings() {
+    @GetMapping("/savings")
+    public List<Savings> getSavings() {
         return savings;
     }
 }
