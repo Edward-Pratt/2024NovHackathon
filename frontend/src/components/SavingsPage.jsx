@@ -72,7 +72,6 @@ function SavingsPage() {
     return (
         <div>
             <h1>Savings Tracker</h1>
-
             {/* Form to add savings */}
             <div>
                 <label htmlFor="savings-name">Savings Name:</label>
