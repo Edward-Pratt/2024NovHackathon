@@ -60,10 +60,8 @@ function TransactionsPage() {
 
     return (
         <div>
-            <h1>Smart Budget</h1>
-            <div className="image-container">
-                <img src="/images/Logo-No-Background.png" width="250" height="200" alt="Logo" className="centered-image" />
-            </div>
+            <h1>Transactions</h1>
+
             <TransactionForm onAddTransaction={addTransaction} />
             <h2>Transactions</h2>
             {/* Force re-render by updating the key */}
